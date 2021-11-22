@@ -1,4 +1,4 @@
-# bikewatch
+# bikewatch-dashboard
 
 ## Build Setup
 

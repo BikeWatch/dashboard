@@ -1,7 +1,7 @@
-export default {
+module.exports =  {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'bikewatch',
+    title: 'bikewatch-dashboard',
     htmlAttrs: {
       lang: 'en'
     },
