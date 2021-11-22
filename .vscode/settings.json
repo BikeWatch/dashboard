@@ -5,5 +5,7 @@
     "appService.zipIgnorePattern": [
         "node_modules{,/**}",
         ".vscode{,/**}"
-    ]
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/f3840cc9-d430-4f03-bf3d-f9ba6b0e53f0/resourceGroups/BikeWatch/providers/Microsoft.Web/sites/dashboard-nuxt",
+    "appService.deploySubpath": "."
 }
