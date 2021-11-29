@@ -1,7 +1,7 @@
 module.exports =  {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'bikewatch-dashboard',
+    title: 'BikeWatch',
     htmlAttrs: {
       lang: 'en'
     },
@@ -12,12 +12,15 @@ module.exports =  {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    'normalize.css',
+    '~/assets/css/main.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
