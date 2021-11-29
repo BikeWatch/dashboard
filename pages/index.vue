@@ -1,5 +1,5 @@
 <template>
-  <Tutorial/>
+  <UniHeader/>
 </template>
 
 <script>
