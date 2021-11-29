@@ -4,17 +4,18 @@
         <BWLogo/>
         <figcaption>
           <p>BikeWatch</p>
-          <p>Your vision on the road beyond</p>
+          <p>Your vision on the road past</p>
         </figcaption>
       </figure>
     </header>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 header{
   background-color: ghostwhite;
   position: sticky;
   top: 0;
+  height: 5rem;
   figure{
     display: flex;
     flex-flow: row nowrap;

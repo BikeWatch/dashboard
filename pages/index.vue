@@ -1,5 +1,5 @@
 <template>
-  <UniHeader/>
+    <Dashboard/>
 </template>
 
 <script>
