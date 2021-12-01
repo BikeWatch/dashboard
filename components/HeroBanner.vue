@@ -5,7 +5,7 @@
       <IconStat icon="speed" subheading="Avg. Speed">
         <p>106 km/h</p>
       </IconStat>
-      <IconStat icon="terrain" subheading="Max. Altitude">
+      <IconStat icon="terrain" subheading="Highest Altitude">
         <p>250m</p>
       </IconStat>
       <IconStat icon="timeline" subheading="Distance">

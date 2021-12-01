@@ -1,3 +1,5 @@
+<!-- Note that the chart does scale downwards, but not upwards! -->
+
 <template>
   <highchart :options="chartOptions" />
 </template>
@@ -17,11 +19,18 @@ export default {
     title: {
       default: "Chart",
       type: String
+    },
+    yFormat: {
+      default: "{text}",
+      type: String
     }
   },
   data() {
     return {
       chartOptions: {
+        chart: {
+          backgroundColor: "#F8F8FF",
+        },
         colors: ['#FF7A00'],
         credits: { enabled: false },
         title: {
@@ -32,7 +41,7 @@ export default {
         },
         yAxis: {
           labels: {
-            format: '{text} km/h',
+            format: this.yFormat,
           },
         },
         xAxis: {
@@ -41,8 +50,11 @@ export default {
           },
         },
         series: this.series,
+        tooltip: {
+          valueSuffix: this.yFormat
+        }
       },
     }
-  },
+  }
 }
 </script>
