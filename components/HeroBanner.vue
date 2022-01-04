@@ -11,10 +11,8 @@
         <p v-else>{{ maxAlt }}</p>
       </IconStat>
       <IconStat icon="timeline" subheading="Distance">
-        <p>40km</p>
-      </IconStat>
-      <IconStat icon="timer" subheading="Time spent">
-        <p>1h 05min</p>
+        <LoadingAnimation v-if="$fetchState.pending"/>
+        <p v-else>{{ distance }}</p>
       </IconStat>
     </div>
   </article>
@@ -26,12 +24,14 @@ export default {
   data() {
     return {
       avgSpeed: '? KM/H',
-      maxAlt: '? m'
+      maxAlt: '? m',
+      distance: '? km'
     }
   },
   async fetch() {
     this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID)} KM/H`
     this.maxAlt = `${await this.$getMaxAlt(process.env.UUID)} m`
+    this.distance = `${await this.$getDistance(process.env.UUID)} km`
   }
 }
 </script>
