@@ -3,10 +3,12 @@
     <h1>Welcome back</h1>
     <div>
       <IconStat icon="speed" subheading="Avg. Speed">
-        <p>{{ avgSpeed }}</p>
+        <LoadingAnimation v-if="$fetchState.pending"/>
+        <p v-else>{{ avgSpeed }}</p>
       </IconStat>
       <IconStat icon="terrain" subheading="Highest Altitude">
-        <p>250m</p>
+        <LoadingAnimation v-if="$fetchState.pending"/>
+        <p v-else>{{ maxAlt }}</p>
       </IconStat>
       <IconStat icon="timeline" subheading="Distance">
         <p>40km</p>
@@ -24,10 +26,12 @@ export default {
   data() {
     return {
       avgSpeed: '? KM/H',
+      maxAlt: '? m'
     }
   },
   async fetch() {
-    this.avgSpeed = `${await this.$getAverageSpeed(process.env.UUID)} KM/H`
+    this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID)} KM/H`
+    this.maxAlt = `${await this.$getMaxAlt(process.env.UUID)} m`
   }
 }
 </script>
