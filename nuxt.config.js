@@ -1,4 +1,9 @@
-module.exports =  {
+/* eslint-disable nuxt/no-cjs-in-config */
+module.exports = {
+  env: {
+    API_URL: "https://bikewatch-functions.azurewebsites.net/api",
+    UUID: "bc-87-72-17"
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'BikeWatch',
@@ -39,10 +44,15 @@ module.exports =  {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // Simple usage
-    'nuxt-highcharts',
+    'nuxt-highcharts'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+    }
   }
 }

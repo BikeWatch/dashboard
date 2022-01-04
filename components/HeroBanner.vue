@@ -3,7 +3,7 @@
     <h1>Welcome back</h1>
     <div>
       <IconStat icon="speed" subheading="Avg. Speed">
-        <p>106 km/h</p>
+        <p>{{ avgSpeed }}</p>
       </IconStat>
       <IconStat icon="terrain" subheading="Highest Altitude">
         <p>250m</p>
@@ -18,9 +18,29 @@
   </article>
 </template>
 
+<script>
+export default {
+  name: 'HeroBanner',
+  data() {
+    return {
+      avgSpeed: '? KM/H',
+    }
+  },
+  async fetch() {
+    this.avgSpeed = await this.getAvgSpeed(process.env.UUID)
+  },
+  methods: {
+    async getAvgSpeed(uuid, from = new Date(1700, 1, 1), to=new Date()) {
+      const speed = await (await fetch(`${process.env.API_URL}/Speed/Avg?uuid=${uuid}&to=${to.toISOString()}&from=${from.toISOString()}`)).text()
+      return `${Math.round(speed)} KM/H`.toString()
+    },
+  },
+}
+</script>
+
 <style lang="scss" scoped>
 article {
-    margin: 5rem;
+  margin: 5rem;
   h1 {
     text-align: center;
     margin-bottom: 5rem;
