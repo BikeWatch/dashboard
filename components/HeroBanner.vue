@@ -27,14 +27,8 @@ export default {
     }
   },
   async fetch() {
-    this.avgSpeed = await this.getAvgSpeed(process.env.UUID)
-  },
-  methods: {
-    async getAvgSpeed(uuid, from = new Date(1700, 1, 1), to=new Date()) {
-      const speed = await (await fetch(`${process.env.API_URL}/Speed/Avg?uuid=${uuid}&to=${to.toISOString()}&from=${from.toISOString()}`)).text()
-      return `${Math.round(speed)} KM/H`.toString()
-    },
-  },
+    this.avgSpeed = `${await this.$getAverageSpeed(process.env.UUID)} KM/H`
+  }
 }
 </script>
 
