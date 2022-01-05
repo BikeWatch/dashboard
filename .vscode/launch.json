@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "type": "node-terminal",
+            "name": "Nuxt Dev",
+            "request": "launch",
+            "command": "npm run dev",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Chrome Dev",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Nuxt.JS",
+            "configurations": [
+                "Nuxt Dev",
+                "Chrome Dev"
+            ]
+        }
+    ]
+}

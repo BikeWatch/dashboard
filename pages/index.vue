@@ -1,15 +1,21 @@
 <template>
   <main>
     <hero-banner />
-    <last-ride-overview/>
+    <overview :title="'Last 24 hours'" :from="from" :to="to"/>
   </main>
 </template>
 
 <script>
-import LastRideOverview from '~/components/LastRideOverview.vue'
+import Overview from '~/components/Overview.vue'
 import HeroBanner from '~/components/HeroBanner.vue'
 export default {
-  components: { HeroBanner, LastRideOverview },
+  components: { HeroBanner, Overview },
+  data() {
+    return{
+      to: new Date(),
+      from: new Date(new Date().setDate(new Date().getDate() - 1))
+    }
+  }
 }
 </script>
 

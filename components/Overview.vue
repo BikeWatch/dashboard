@@ -1,20 +1,22 @@
 <template>
   <article>
-    <h2>Last Ride</h2>
+    <h2>{{ title }}</h2>
     <div class="time-stats">
       <icon-stat icon="play_arrow" subheading="Start time">
-        <p>7h15</p>
+        <p>{{ from.toLocaleString('nl-BE') }}</p>
       </icon-stat>
       <icon-stat icon="stop" subheading="Stop time">
-        <p>9h15</p>
+        <p>{{ to.toLocaleString('nl-BE') }}</p>
       </icon-stat>
     </div>
     <div class="icon-stats">
       <icon-stat icon="speed" subheading="Avg. Speed">
-        <p>122 km/h</p>
+        <loading-animation v-if="$fetchState.pending"/>
+        <p v-else>{{avgSpeed}}</p>
       </icon-stat>
       <icon-stat icon="terrain" subheading="Avg. Height">
-        <p>15 m</p>
+        <loading-animation v-if="$fetchState.pending"/>
+        <p v-else>{{avgAlt}}</p>
       </icon-stat>
       <icon-stat icon="timeline" subheading="Distance">
         <p>20 km</p>
@@ -40,10 +42,28 @@
 <script>
 import IconStat from './IconStat.vue'
 import TimeChart from '~/components/chart/TimeChart.vue'
+import LoadingAnimation from '~/components/LoadingAnimation.vue'
 export default {
-  components: { TimeChart, IconStat },
+  name: 'Overview',
+  components: { TimeChart, IconStat, LoadingAnimation },
+  props: {
+    title: {
+      default: 'overview',
+      type: String,
+    },
+    from: {
+      default: () => new Date(1700, 1, 1),
+      type: Date,
+    },
+    to: {
+      default: () => new Date(),
+      type: Date,
+    },
+  },
   data() {
     return {
+      avgSpeed: '? KM/H',
+      avgAlt: '? m',
       speedSeries: [
         {
           name: 'Avg. Speed',
@@ -134,16 +154,20 @@ export default {
       ],
     }
   },
+  async fetch() {
+    this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID, this.from, this.to)} KM/H`
+    this.avgAlt = `${await this.$getAvgAlt(process.env.UUID, this.from, this.to)} m`
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-.time-stats{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-    gap: 1rem;
-    margin-bottom: 2rem;
+.time-stats {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .icon-stats {
