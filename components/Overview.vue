@@ -29,7 +29,7 @@
     <div class="chart-gallery">
       <time-chart :series="speedSeries" title="Speed" y-format="{text} km/h" />
       <time-chart
-        :series="altitudeSeries"
+        :series="altSeries"
         title="Altitude"
         y-format="{text} m"
       />
@@ -57,6 +57,10 @@ export default {
       default: () => new Date(),
       type: Date,
     },
+    interval: {
+      default: (60*60),
+      type: Number
+    }
   },
   data() {
     return {
@@ -71,48 +75,11 @@ export default {
           data: []
         },
       ],
-      altitudeSeries: [
+      altSeries: [
         {
           name: 'Altitude',
           type: 'spline',
-          data: [
-            {
-              x: new Date('November 1, 2021 07:30:00'),
-              y: 0,
-            },
-            {
-              x: new Date('November 1, 2021 07:45:00'),
-              y: 10,
-            },
-            {
-              x: new Date('November 1, 2021 08:00:00'),
-              y: 20,
-            },
-            {
-              x: new Date('November 1, 2021 08:15:00'),
-              y: 15.5,
-            },
-            {
-              x: new Date('November 1, 2021 08:30:00'),
-              y: 13.5,
-            },
-            {
-              x: new Date('November 1, 2021 08:45:00'),
-              y: 20,
-            },
-            {
-              x: new Date('November 1, 2021 09:00:00'),
-              y: 30,
-            },
-            {
-              x: new Date('November 1, 2021 09:15:00'),
-              y: 45,
-            },
-            {
-              x: new Date('November 1, 2021 09:30:00'),
-              y: 43.3,
-            },
-          ],
+          data: [],
         },
       ],
     }
@@ -122,7 +89,8 @@ export default {
     this.avgAlt = `${await this.$getAvgAlt(process.env.UUID, this.from, this.to)} m`
     this.distance = `${await this.$getDistance(process.env.UUID, this.from, this.to)} km`
     this.maxAngle = `${await this.$getMaxAngle(process.env.UUID, this.from, this.to)} °`
-    this.speedSeries[0].data = await this.$getContinuousSpeed(process.env.UUID, 60, this.from, this.to)
+    this.speedSeries[0].data = await this.$getContinuousSpeed(process.env.UUID, this.interval, this.from, this.to)
+    this.altSeries[0].data = await this.$getContinuousAlt(process.env.UUID, this.interval, this.from, this.to)
   },
 }
 </script>

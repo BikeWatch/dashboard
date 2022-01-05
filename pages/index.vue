@@ -1,7 +1,7 @@
 <template>
   <main>
     <hero-banner />
-    <overview :title="'Last 24 hours'" :from="from" :to="to"/>
+    <overview :title="'Last 24 hours'" :from="from" :to="to" :interval="(60*30)"/>
   </main>
 </template>
 

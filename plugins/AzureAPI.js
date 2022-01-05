@@ -23,6 +23,10 @@ export default (context, inject) => {
         const response = await fetchJson(`${process.env.API_URL}/continuous/Speed?uuid=${uuid}&to=${to.toISOString()}&from=${from.toISOString()}&interval=${intervalSeconds}`)
         return mapToSeries(response, "dateTime", "speed")
     })
+    inject('getContinuousAlt', async (uuid, intervalSeconds = 60, from = new Date(1700, 1, 1), to = new Date()) => { 
+        const response = await fetchJson(`${process.env.API_URL}/continuous/Elevation?uuid=${uuid}&to=${to.toISOString()}&from=${from.toISOString()}&interval=${intervalSeconds}`)
+        return mapToSeries(response, "dateTime", "alt")
+    })
 }
 
 async function fetchFloat(url) { 
