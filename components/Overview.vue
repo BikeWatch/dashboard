@@ -68,44 +68,7 @@ export default {
         {
           name: 'Avg. Speed',
           type: 'spline',
-          data: [
-            {
-              x: new Date('November 1, 2021 07:30:00'),
-              y: 0,
-            },
-            {
-              x: new Date('November 1, 2021 07:45:00'),
-              y: 30,
-            },
-            {
-              x: new Date('November 1, 2021 08:00:00'),
-              y: 50,
-            },
-            {
-              x: new Date('November 1, 2021 08:15:00'),
-              y: 45,
-            },
-            {
-              x: new Date('November 1, 2021 08:30:00'),
-              y: 90,
-            },
-            {
-              x: new Date('November 1, 2021 08:45:00'),
-              y: 120,
-            },
-            {
-              x: new Date('November 1, 2021 09:00:00'),
-              y: 140,
-            },
-            {
-              x: new Date('November 1, 2021 09:15:00'),
-              y: 50,
-            },
-            {
-              x: new Date('November 1, 2021 09:30:00'),
-              y: 0,
-            },
-          ],
+          data: []
         },
       ],
       altitudeSeries: [
@@ -159,6 +122,7 @@ export default {
     this.avgAlt = `${await this.$getAvgAlt(process.env.UUID, this.from, this.to)} m`
     this.distance = `${await this.$getDistance(process.env.UUID, this.from, this.to)} km`
     this.maxAngle = `${await this.$getMaxAngle(process.env.UUID, this.from, this.to)} °`
+    this.speedSeries[0].data = await this.$getContinuousSpeed(process.env.UUID, 60, this.from, this.to)
   },
 }
 </script>
