@@ -15,6 +15,10 @@ export default (context, inject) => {
         const response = await fetchFloat(`${process.env.API_URL}/Elevation/Avg?uuid=${uuid}&to=${to.toISOString()}&from=${from.toISOString()}`)
         return response.toFixed(2)
     })
+    inject('getMaxAngle', async (uuid, from = new Date(1700, 1, 1), to = new Date()) => {
+        const response = await fetchFloat(`${process.env.API_URL}/Angle/Max?uuid=${uuid}&to=${to.toISOString()}&from=${from.toISOString()}`)
+        return response.toFixed(2)
+    })
 }
 
 async function fetchFloat(url) { 

@@ -19,13 +19,11 @@
         <p v-else>{{avgAlt}}</p>
       </icon-stat>
       <icon-stat icon="timeline" subheading="Distance">
-        <p>20 km</p>
-      </icon-stat>
-      <icon-stat icon="two_wheeler" subheading="Max G-Force">
-        <p>1 G</p>
+        <loading-animation v-if="$fetchState.pending"/>
+        <p v-else>{{distance}}</p>
       </icon-stat>
       <icon-stat icon="airline_seat_flat_angled" subheading="Max Angle">
-        <p>45°</p>
+        <p>{{maxAngle}}</p>
       </icon-stat>
     </div>
     <div class="chart-gallery">
@@ -64,6 +62,8 @@ export default {
     return {
       avgSpeed: '? KM/H',
       avgAlt: '? m',
+      distance: '? km',
+      maxAngle: '? °',
       speedSeries: [
         {
           name: 'Avg. Speed',
@@ -157,6 +157,8 @@ export default {
   async fetch() {
     this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID, this.from, this.to)} KM/H`
     this.avgAlt = `${await this.$getAvgAlt(process.env.UUID, this.from, this.to)} m`
+    this.distance = `${await this.$getDistance(process.env.UUID, this.from, this.to)} km`
+    this.maxAngle = `${await this.$getMaxAngle(process.env.UUID, this.from, this.to)} °`
   },
 }
 </script>
