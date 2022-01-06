@@ -41,7 +41,8 @@ module.exports = {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // Simple usage
-    'nuxt-highcharts'
+    'nuxt-highcharts',
+    'nuxt-leaflet'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

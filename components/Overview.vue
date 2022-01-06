@@ -1,6 +1,16 @@
 <template>
   <article>
     <h2>{{ title }}</h2>
+    <div id="map-wrap" style="height: 300px">
+        <client-only>
+          <l-map :zoom="15" :center="[51.505, -0.159]">
+            <l-tile-layer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            ></l-tile-layer>
+            <l-marker :lat-lng="[51.504, -0.159]"></l-marker>
+          </l-map>
+        </client-only>
+      </div>
     <div class="time-stats">
       <icon-stat icon="play_arrow" subheading="Start time">
         <p>{{ from.toLocaleString('nl-BE') }}</p>
@@ -11,28 +21,24 @@
     </div>
     <div class="icon-stats">
       <icon-stat icon="speed" subheading="Avg. Speed">
-        <loading-animation v-if="$fetchState.pending"/>
-        <p v-else>{{avgSpeed}}</p>
+        <loading-animation v-if="$fetchState.pending" />
+        <p v-else>{{ avgSpeed }}</p>
       </icon-stat>
       <icon-stat icon="terrain" subheading="Avg. Height">
-        <loading-animation v-if="$fetchState.pending"/>
-        <p v-else>{{avgAlt}}</p>
+        <loading-animation v-if="$fetchState.pending" />
+        <p v-else>{{ avgAlt }}</p>
       </icon-stat>
       <icon-stat icon="timeline" subheading="Distance">
-        <loading-animation v-if="$fetchState.pending"/>
-        <p v-else>{{distance}}</p>
+        <loading-animation v-if="$fetchState.pending" />
+        <p v-else>{{ distance }}</p>
       </icon-stat>
       <icon-stat icon="airline_seat_flat_angled" subheading="Max Angle">
-        <p>{{maxAngle}}</p>
+        <p>{{ maxAngle }}</p>
       </icon-stat>
     </div>
     <div class="chart-gallery">
       <time-chart :series="speedSeries" title="Speed" y-format="{text} km/h" />
-      <time-chart
-        :series="altSeries"
-        title="Altitude"
-        y-format="{text} m"
-      />
+      <time-chart :series="altSeries" title="Altitude" y-format="{text} m" />
     </div>
   </article>
 </template>
@@ -58,9 +64,9 @@ export default {
       type: Date,
     },
     interval: {
-      default: (60*60),
-      type: Number
-    }
+      default: 60 * 60,
+      type: Number,
+    },
   },
   data() {
     return {
@@ -72,7 +78,7 @@ export default {
         {
           name: 'Avg. Speed',
           type: 'spline',
-          data: []
+          data: [],
         },
       ],
       altSeries: [
@@ -85,12 +91,38 @@ export default {
     }
   },
   async fetch() {
-    this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID, this.from, this.to)} KM/H`
-    this.avgAlt = `${await this.$getAvgAlt(process.env.UUID, this.from, this.to)} m`
-    this.distance = `${await this.$getDistance(process.env.UUID, this.from, this.to)} km`
-    this.maxAngle = `${await this.$getMaxAngle(process.env.UUID, this.from, this.to)} °`
-    this.speedSeries[0].data = await this.$getContinuousSpeed(process.env.UUID, this.interval, this.from, this.to)
-    this.altSeries[0].data = await this.$getContinuousAlt(process.env.UUID, this.interval, this.from, this.to)
+    this.avgSpeed = `${await this.$getAvgSpeed(
+      process.env.UUID,
+      this.from,
+      this.to
+    )} KM/H`
+    this.avgAlt = `${await this.$getAvgAlt(
+      process.env.UUID,
+      this.from,
+      this.to
+    )} m`
+    this.distance = `${await this.$getDistance(
+      process.env.UUID,
+      this.from,
+      this.to
+    )} km`
+    this.maxAngle = `${await this.$getMaxAngle(
+      process.env.UUID,
+      this.from,
+      this.to
+    )} °`
+    this.speedSeries[0].data = await this.$getContinuousSpeed(
+      process.env.UUID,
+      this.interval,
+      this.from,
+      this.to
+    )
+    this.altSeries[0].data = await this.$getContinuousAlt(
+      process.env.UUID,
+      this.interval,
+      this.from,
+      this.to
+    )
   },
 }
 </script>
