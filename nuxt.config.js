@@ -1,9 +1,5 @@
 /* eslint-disable nuxt/no-cjs-in-config */
 module.exports = {
-  env: {
-    API_URL: "http://localhost:7071/api",
-    UUID: "bc-87-72-17"
-  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'BikeWatch',
