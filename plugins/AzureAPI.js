@@ -27,6 +27,10 @@ export default (context, inject) => {
         const response = await fetchJson(`${process.env.API_URL}/continuous/Elevation?uuid=${uuid}&to=${to.toISOString()}&from=${from.toISOString()}&interval=${intervalSeconds}`)
         return mapToSeries(response, "dateTime", "alt")
     })
+    inject('getContinuousLocation', async (uuid, intervalSeconds = 60, from = new Date(1700, 1, 1), to = new Date()) => {
+        const response = await fetchJson(`${process.env.API_URL}/continuous/Location?uuid=${uuid}&to=${to.toISOString()}&from=${from.toISOString()}&interval=${intervalSeconds}`)
+        return mapToLeafletCoordinates(response, "lat", "long")
+    })
 }
 
 async function fetchFloat(url) { 
@@ -41,4 +45,8 @@ async function fetchJson(url) {
 
 function mapToSeries(array, replacementX, replacementY) { 
     return array.map(entry => ({ x: Date.parse(entry[replacementX]), y: entry[replacementY]}))
+}
+
+function mapToLeafletCoordinates(array, latKey, longKey) { 
+    return array.map(entry => [entry[latKey], entry[longKey]])
 }

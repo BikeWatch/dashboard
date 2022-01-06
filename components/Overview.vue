@@ -1,16 +1,7 @@
 <template>
   <article>
     <h2>{{ title }}</h2>
-    <div id="map-wrap" style="height: 300px">
-        <client-only>
-          <l-map :zoom="15" :center="[51.505, -0.159]">
-            <l-tile-layer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            ></l-tile-layer>
-            <l-marker :lat-lng="[51.504, -0.159]"></l-marker>
-          </l-map>
-        </client-only>
-      </div>
+    <leaflet-map :coordinates="coordinates" :center="center"/>
     <div class="time-stats">
       <icon-stat icon="play_arrow" subheading="Start time">
         <p>{{ from.toLocaleString('nl-BE') }}</p>
@@ -45,11 +36,12 @@
 
 <script>
 import IconStat from './IconStat.vue'
+import LeafletMap from './maps/LeafletMap.vue'
 import TimeChart from '~/components/chart/TimeChart.vue'
 import LoadingAnimation from '~/components/LoadingAnimation.vue'
 export default {
   name: 'Overview',
-  components: { TimeChart, IconStat, LoadingAnimation },
+  components: { TimeChart, IconStat, LoadingAnimation, LeafletMap },
   props: {
     title: {
       default: 'overview',
@@ -66,7 +58,7 @@ export default {
     interval: {
       default: 60 * 60,
       type: Number,
-    },
+    }
   },
   data() {
     return {
@@ -88,41 +80,20 @@ export default {
           data: [],
         },
       ],
+      coordinates: [],
+      center: []
     }
   },
   async fetch() {
-    this.avgSpeed = `${await this.$getAvgSpeed(
-      process.env.UUID,
-      this.from,
-      this.to
-    )} KM/H`
-    this.avgAlt = `${await this.$getAvgAlt(
-      process.env.UUID,
-      this.from,
-      this.to
-    )} m`
-    this.distance = `${await this.$getDistance(
-      process.env.UUID,
-      this.from,
-      this.to
-    )} km`
-    this.maxAngle = `${await this.$getMaxAngle(
-      process.env.UUID,
-      this.from,
-      this.to
-    )} °`
-    this.speedSeries[0].data = await this.$getContinuousSpeed(
-      process.env.UUID,
-      this.interval,
-      this.from,
-      this.to
-    )
-    this.altSeries[0].data = await this.$getContinuousAlt(
-      process.env.UUID,
-      this.interval,
-      this.from,
-      this.to
-    )
+    this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID, this.from, this.to)} KM/H`
+    this.avgAlt = `${await this.$getAvgAlt(process.env.UUID, this.from, this.to)} m`
+    this.distance = `${await this.$getDistance(process.env.UUID, this.from, this.to)} km`
+    this.maxAngle = `${await this.$getMaxAngle(process.env.UUID, this.from, this.to)} °`
+    this.speedSeries[0].data = await this.$getContinuousSpeed(process.env.UUID, this.interval, this.from, this.to)
+    this.altSeries[0].data = await this.$getContinuousAlt(process.env.UUID, this.interval, this.from, this.to)
+    const locations = await this.$getContinuousLocation(process.env.UUID, 60, this.from, this.to)
+    this.coordinates = locations
+    this.center = locations[0]
   },
 }
 </script>
