@@ -1,4 +1,5 @@
-module.exports =  {
+/* eslint-disable nuxt/no-cjs-in-config */
+module.exports = {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'BikeWatch',
@@ -25,6 +26,7 @@ module.exports =  {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: '~/plugins/AzureAPI.js'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,10 +41,16 @@ module.exports =  {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // Simple usage
-    'nuxt-highcharts',
+    'nuxt-highcharts'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ['AzureAPI'],
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+    }
   }
 }

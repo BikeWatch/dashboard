@@ -3,24 +3,42 @@
     <h1>Welcome back</h1>
     <div>
       <IconStat icon="speed" subheading="Avg. Speed">
-        <p>106 km/h</p>
+        <LoadingAnimation v-if="$fetchState.pending"/>
+        <p v-else>{{ avgSpeed }}</p>
       </IconStat>
       <IconStat icon="terrain" subheading="Highest Altitude">
-        <p>250m</p>
+        <LoadingAnimation v-if="$fetchState.pending"/>
+        <p v-else>{{ maxAlt }}</p>
       </IconStat>
       <IconStat icon="timeline" subheading="Distance">
-        <p>40km</p>
-      </IconStat>
-      <IconStat icon="timer" subheading="Time spent">
-        <p>1h 05min</p>
+        <LoadingAnimation v-if="$fetchState.pending"/>
+        <p v-else>{{ distance }}</p>
       </IconStat>
     </div>
   </article>
 </template>
 
+<script>
+export default {
+  name: 'HeroBanner',
+  data() {
+    return {
+      avgSpeed: '? KM/H',
+      maxAlt: '? m',
+      distance: '? km'
+    }
+  },
+  async fetch() {
+    this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID)} KM/H`
+    this.maxAlt = `${await this.$getMaxAlt(process.env.UUID)} m`
+    this.distance = `${await this.$getDistance(process.env.UUID)} km`
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 article {
-    margin: 5rem;
+  margin: 5rem;
   h1 {
     text-align: center;
     margin-bottom: 5rem;
