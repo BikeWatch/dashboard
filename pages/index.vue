@@ -1,21 +1,35 @@
 <template>
   <main>
-    <hero-banner />
-    <overview :title="'Last 24 hours'" :from="from" :to="to" :interval="(60*30)"/>
+    <UUIDSelect :uuid="selectedUuid" @change-uuid="updateUUID" />
+    <hero-banner :uuid="selectedUuid" />
+    <overview
+      :title="'Last 24 hours'"
+      :from="from"
+      :to="to"
+      :interval="1"
+      :uuid="selectedUuid"
+    />
   </main>
 </template>
 
 <script>
 import Overview from '~/components/Overview.vue'
 import HeroBanner from '~/components/HeroBanner.vue'
+import UUIDSelect from '~/components/UUIDSelect.vue'
 export default {
-  components: { HeroBanner, Overview },
+  components: { HeroBanner, Overview, UUIDSelect },
   data() {
-    return{
+    return {
       to: new Date(),
-      from: new Date(new Date().setDate(new Date().getDate() - 1))
+      from: new Date(new Date().setDate(new Date().getDate() - 1)),
+      selectedUuid: '',
     }
-  }
+  },
+  methods: {
+    updateUUID(uuid) {
+      this.selectedUuid = uuid
+    },
+  },
 }
 </script>
 

@@ -3,15 +3,15 @@
     <h1>Welcome back</h1>
     <div>
       <IconStat icon="speed" subheading="Avg. Speed">
-        <LoadingAnimation v-if="$fetchState.pending"/>
+        <LoadingAnimation v-if="$fetchState.pending" />
         <p v-else>{{ avgSpeed }}</p>
       </IconStat>
       <IconStat icon="terrain" subheading="Highest Altitude">
-        <LoadingAnimation v-if="$fetchState.pending"/>
+        <LoadingAnimation v-if="$fetchState.pending" />
         <p v-else>{{ maxAlt }}</p>
       </IconStat>
       <IconStat icon="timeline" subheading="Distance">
-        <LoadingAnimation v-if="$fetchState.pending"/>
+        <LoadingAnimation v-if="$fetchState.pending" />
         <p v-else>{{ distance }}</p>
       </IconStat>
     </div>
@@ -21,18 +21,31 @@
 <script>
 export default {
   name: 'HeroBanner',
+  props: {
+    uuid: {
+      default: '',
+      type: String,
+    },
+  },
   data() {
     return {
+      selected: '',
       avgSpeed: '? KM/H',
       maxAlt: '? m',
-      distance: '? km'
+      distance: '? km',
     }
   },
   async fetch() {
-    this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID)} KM/H`
-    this.maxAlt = `${await this.$getMaxAlt(process.env.UUID)} m`
+    console.log('test')
+    this.avgSpeed = `${await this.$getAvgSpeed(this.uuid)} KM/H`
+    this.maxAlt = `${await this.$getMaxAlt(this.uuid)} m`
     this.distance = `${await this.$getDistance(process.env.UUID)} km`
-  }
+  },
+  watch: {
+    uuid: function refetch() {
+      this.$fetch()
+    },
+  },
 }
 </script>
 

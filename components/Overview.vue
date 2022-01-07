@@ -1,7 +1,7 @@
 <template>
   <article>
     <h2>{{ title }}</h2>
-    <leaflet-map :coordinates="coordinates" :center="center"/>
+    <leaflet-map :coordinates="coordinates" :center="center" />
     <div class="time-stats">
       <icon-stat icon="play_arrow" subheading="Start time">
         <p>{{ from.toLocaleString('nl-BE') }}</p>
@@ -58,7 +58,11 @@ export default {
     interval: {
       default: 60 * 60,
       type: Number,
-    }
+    },
+    uuid: {
+      default: '',
+      type: String,
+    },
   },
   data() {
     return {
@@ -81,17 +85,48 @@ export default {
         },
       ],
       coordinates: [],
-      center: []
+      center: [],
     }
   },
   async fetch() {
-    this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID, this.from, this.to)} KM/H`
-    this.avgAlt = `${await this.$getAvgAlt(process.env.UUID, this.from, this.to)} m`
-    this.distance = `${await this.$getDistance(process.env.UUID, this.from, this.to)} km`
-    this.maxAngle = `${await this.$getMaxAngle(process.env.UUID, this.from, this.to)} °`
-    this.speedSeries[0].data = await this.$getContinuousSpeed(process.env.UUID, this.interval, this.from, this.to)
-    this.altSeries[0].data = await this.$getContinuousAlt(process.env.UUID, this.interval, this.from, this.to)
-    const locations = await this.$getContinuousLocation(process.env.UUID, 60, this.from, this.to)
+    this.avgSpeed = `${await this.$getAvgSpeed(
+      process.env.UUID,
+      this.from,
+      this.to
+    )} KM/H`
+    this.avgAlt = `${await this.$getAvgAlt(
+      process.env.UUID,
+      this.from,
+      this.to
+    )} m`
+    this.distance = `${await this.$getDistance(
+      process.env.UUID,
+      this.from,
+      this.to
+    )} km`
+    this.maxAngle = `${await this.$getMaxAngle(
+      process.env.UUID,
+      this.from,
+      this.to
+    )} °`
+    this.speedSeries[0].data = await this.$getContinuousSpeed(
+      process.env.UUID,
+      this.interval,
+      this.from,
+      this.to
+    )
+    this.altSeries[0].data = await this.$getContinuousAlt(
+      process.env.UUID,
+      this.interval,
+      this.from,
+      this.to
+    )
+    const locations = await this.$getContinuousLocation(
+      process.env.UUID,
+      1,
+      this.from,
+      this.to
+    )
     this.coordinates = locations
     this.center = locations[0]
   },
