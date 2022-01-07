@@ -91,7 +91,7 @@ export default {
     this.maxAngle = `${await this.$getMaxAngle(process.env.UUID, this.from, this.to)} °`
     this.speedSeries[0].data = await this.$getContinuousSpeed(process.env.UUID, this.interval, this.from, this.to)
     this.altSeries[0].data = await this.$getContinuousAlt(process.env.UUID, this.interval, this.from, this.to)
-    const locations = await this.$getContinuousLocation(process.env.UUID, 60, this.from, this.to)
+    const locations = await this.$getContinuousLocation(process.env.UUID, 1, this.from, this.to)
     this.coordinates = locations
     this.center = locations[0]
   },
