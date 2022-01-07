@@ -14,7 +14,8 @@ module.exports = {
     ],
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+      { rel: 'icon', type: 'image/png', href: '/favicon.png' }
     ]
   },
 
@@ -40,8 +41,8 @@ module.exports = {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // Simple usage
-    'nuxt-highcharts'
+    'nuxt-highcharts',
+    'nuxt-leaflet'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
