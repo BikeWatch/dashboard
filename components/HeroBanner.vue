@@ -21,6 +21,12 @@
 <script>
 export default {
   name: 'HeroBanner',
+  props:{
+    uuid: {
+      default: "bc-87-72-17",
+      type: String
+    }
+  },
   data() {
     return {
       avgSpeed: '? KM/H',
@@ -29,9 +35,9 @@ export default {
     }
   },
   async fetch() {
-    this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID)} KM/H`
-    this.maxAlt = `${await this.$getMaxAlt(process.env.UUID)} m`
-    this.distance = `${await this.$getDistance(process.env.UUID)} km`
+    this.avgSpeed = `${await this.$getAvgSpeed(this.uuid)} KM/H`
+    this.maxAlt = `${await this.$getMaxAlt(this.uuid)} m`
+    this.distance = `${await this.$getDistance(this.uuid)} km`
   }
 }
 </script>

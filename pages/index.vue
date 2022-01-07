@@ -10,13 +10,8 @@
         </select>
       </p>
     </article>
-    <hero-banner />
-    <overview
-      :title="'Last 24 hours'"
-      :from="from"
-      :to="to"
-      :interval="60 * 30"
-    />
+    <hero-banner :key="uuid" :uuid="uuid"/>
+    <overview :key="uuid" :title="'Last 24 hours'" :from="from" :to="to" :interval="60 * 30" :uuid="uuid"/>
   </main>
 </template>
 
