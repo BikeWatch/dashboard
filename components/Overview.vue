@@ -1,7 +1,7 @@
 <template>
   <article>
     <h2>{{ title }}</h2>
-    <leaflet-map :coordinates="coordinates" :center="center"/>
+    <leaflet-map v-if="!coordinates || coordinates.length > 0" :coordinates="coordinates" :center="center"/>
     <div class="time-stats">
       <icon-stat icon="play_arrow" subheading="Start time">
         <p>{{ from.toLocaleString('nl-BE') }}</p>
