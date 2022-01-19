@@ -3,17 +3,24 @@
     <h1>Welcome back</h1>
     <div>
       <IconStat icon="speed" subheading="Avg. Speed">
-        <LoadingAnimation v-if="$fetchState.pending"/>
+        <LoadingAnimation v-if="$fetchState.pending" />
         <p v-else>{{ avgSpeed }}</p>
       </IconStat>
       <IconStat icon="terrain" subheading="Highest Altitude">
-        <LoadingAnimation v-if="$fetchState.pending"/>
+        <LoadingAnimation v-if="$fetchState.pending" />
         <p v-else>{{ maxAlt }}</p>
       </IconStat>
       <IconStat icon="timeline" subheading="Distance">
-        <LoadingAnimation v-if="$fetchState.pending"/>
+        <LoadingAnimation v-if="$fetchState.pending" />
         <p v-else>{{ distance }}</p>
       </IconStat>
+      <icon-stat
+        icon="airline_seat_flat_angled"
+        subheading="Held Optimal Angle"
+      >
+        <LoadingAnimation v-if="$fetchState.pending" />
+        <p v-else>{{ optimalAngle }}</p>
+      </icon-stat>
     </div>
   </article>
 </template>
@@ -25,14 +32,16 @@ export default {
     return {
       avgSpeed: '? KM/H',
       maxAlt: '? m',
-      distance: '? km'
+      distance: '? km',
+      optimalAngle: '? %',
     }
   },
   async fetch() {
     this.avgSpeed = `${await this.$getAvgSpeed(process.env.UUID)} KM/H`
     this.maxAlt = `${await this.$getMaxAlt(process.env.UUID)} m`
     this.distance = `${await this.$getDistance(process.env.UUID)} km`
-  }
+    this.optimalAngle = `${await this.$getOptimalAngle(process.env.UUID)} %`
+  },
 }
 </script>
 
